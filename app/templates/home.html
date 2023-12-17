@@ -1,0 +1,48 @@
+{% extends 'bootstrap/base.html' %}
+{% block styles %}
+{{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+{% endblock %}
+{% block title %}Factbook | {{pays}}{% endblock %}
+
+{% block content %}
+<div class="container-fluid text-left div-home">
+    <h1>Bienvenue sur l'application du Permis de conduire de 2012!</h1>
+    <p>Les données proviennent du site du gouvernement en format CSV. C'est pas trop cool ? (Je passe mon samedi soir dessus donc si ça l'est.)</p>
+
+    <h2></h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Libellé complet</th>
+                <th>Code postal</th>
+                <th>Ville</th>
+                <th>Adresse</th>
+                <th>Nom de l'auto-école</th>
+                <th>Nombre de candidats</th>
+                <th>Réussite (%)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in table.split('<tr>')[2:-1] %}
+                {% set columns = row.split('</td>')[:-1] %}
+                <tr>
+                    {% for col in columns %}
+                        <td>{{ col|replace('<td>', '')|safe }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+    <div class="pagination">
+        {% if offset > 0 %}
+            <a href="?offset={{ offset - 1 }}">Précédent</a>
+        {% endif %}
+        <span>Page {{ offset + 1 }}</span>
+        <a href="?offset={{ offset + 1 }}">Suivant</a>
+    </div>
+</div>
+{% endblock %}

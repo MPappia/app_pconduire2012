@@ -1,0 +1,47 @@
+<!-- REV 3 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Données Éoliennes</title>
+</head>
+<body>
+    <h1>Table des Données Éoliennes</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Identifiant</th>
+                <th>Nom de la région</th>
+                <th>Nom du département</th>
+                <th>Code du département</th>
+                <th>Nom de la commune</th>
+                <th>Nom de l'EPCI en charge</th>
+                <th>Date des données</th>
+                <th>Longitude</th>
+                <th>Latitude</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in données_json %}
+                <tr>
+                    <td>{{ entry.fields.code_epci }}</td>
+                    <td>{{ entry.fields.nom_reg }}</td>
+                    <td>{{ entry.fields.nom_dept }}</td>
+                    <td>{{ entry.fields.dep }}</td>
+                    <td>{{ entry.fields.f_commune_pdl }}</td>
+                    <td>{{ entry.fields.libepci }}</td>
+                    <td>{{ entry.fields.date_des_donnees }}</td>
+                    {% if 'geometry' in entry %}
+                        <td>{{ entry.geometry.coordinates[1] }}</td>
+                        <td>{{ entry.geometry.coordinates[0] }}</td>
+                    {% else %}
+                        <td>Coordonnées non disponibles</td>
+                        <td>Coordonnées non disponibles</td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
